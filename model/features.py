@@ -47,9 +47,12 @@ def process_dataset(df,classes):
     df=df.loc[df['family_accession'].isin(classes)].reset_index()
     df_encoded=integer_encoding(df)
     df_padded_encoded=pad_sequences(df_encoded,maxlen=100,padding='post', truncating='post')
-    df_processed=to_categorical(df_padded_encoded)
     return df_padded_encoded
 
+
+def additional_porcess(data):
+    one_hot_encode=to_categorical(data)
+    return one_hot_encode
 
 def process_labels(data,classes):
     """
