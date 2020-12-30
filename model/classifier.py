@@ -57,9 +57,9 @@ def protccn_model(input_shape):
     return model
 
 
-def train_model(model,x_train,y_train,x_val,y_val,epochs=50,batch_size=256):
+def train_model(model,x_train,y_train,x_val,y_val,epochs=50,batch_size=256, model_name="lstm"):
     history=model.fit(x_train,y_train,epochs=epochs, batch_size=batch_size,validation_data=(x_val,y_val),callbacks=EarlyStopping(monitor="val_loss",verbose=1))
-    model.save_weights()
+    model.save_weights("model_"+model_name)
     return history
 
 def plot_accuracy_train_val(history):

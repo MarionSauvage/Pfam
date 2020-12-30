@@ -13,8 +13,8 @@ def get_classes_top1000(dataset):
     #return class list
     return dataset['family_accession'].value_counts()[:1000].index.tolist()
 
-def reduce_dataset_1000topclasses(data):
-    data=data.loc[df['family_accession'].isin(classes)].reset_index()
+def reduce_dataset_1000topclasses(data,classes):
+    data=data.loc[data['family_accession'].isin(classes)].reset_index()
     return data
 
 """ 
@@ -52,16 +52,18 @@ def process_dataset(df,classes):
     return df_padded_encoded
 
 
-def additional_porcess(data):
+def additional_process(data):
+    """
+    - OnehotEncoding of input 
+    """
     one_hot_encode=to_categorical(data)
     return one_hot_encode
 
 def process_labels(data,classes):
     """
-    
+    - Encoding of labls
     """
     label_encoder=LabelEncoder()
     data_encoded=label_encoder.fit_transform(data['family_accession'])
-    #data_encoded=data_encoded.toarray()
     data_encoded=to_categorical(data_encoded)
     return data_encoded
