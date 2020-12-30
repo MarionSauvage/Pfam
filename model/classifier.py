@@ -8,7 +8,7 @@ from keras.callbacks import EarlyStopping
 from keras.layers import Input, Dense, Dropout, Flatten, Activation
 from keras.layers import Conv1D, Add, MaxPooling1D, BatchNormalization
 from keras.layers import Embedding, Bidirectional, LSTM, GlobalMaxPooling1D
-import seaborn
+import seaborn as sns
 import matplotlib.pyplot as plt
 
 def build_model(optimizer='adam',loss='categorical_crossentropy'):
@@ -22,8 +22,8 @@ def build_model(optimizer='adam',loss='categorical_crossentropy'):
     """
     model=Sequential()
     model.add(Embedding(21, 100, input_length=100))
-    model.add(Bidirectional(LSTM(64,kernel_regularizer=l2(0.01),recurrent_regularizer=l2(0.01), bias_regularizer=l2(0.01))))
-    model.add(Dropout(0.3))
+    model.add(Bidirectional(LSTM(100,kernel_regularizer=l2(0.01),recurrent_regularizer=l2(0.01), bias_regularizer=l2(0.01))))
+    model.add(Dropout(0.5))
     model.add(Dense(1000, activation='softmax'))
     model.compile(optimizer=optimizer, loss=loss, metrics=['accuracy'])
     return model
@@ -60,7 +60,7 @@ def protccn_model(input_shape):
 
 
 def train_model(model,x_train,y_train,x_val,y_val,epochs=50,batch_size=256, model_name="lstm"):
-    history=model.fit(x_train,y_train,epochs=epochs, batch_size=batch_size,validation_data=(x_val,y_val),callbacks=EarlyStopping(monitor="val_loss",verbose=1))
+    history=model.fit(x_train,y_train,epochs=epochs, batch_size=batch_size,validation_data=(x_val,y_val),callbacks=EarlyStopping(monitor="val_loss",verbose=1,patience=5))
     model.save_weights("model_"+model_name)
     return history
 
