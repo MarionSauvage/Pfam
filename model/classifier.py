@@ -19,8 +19,8 @@ def build_model(optimizer='adam',loss='categorical_crossentropy'):
     Output : compiled model
     """
     model=Sequential()
-    model.add(Embedding(22, 100, input_length=100))
-    model.add(Bidirectional(LSTM(1000,return_sequences=True,recurrent_dropout=0.5)))
+    model.add(Embedding(21, 100, input_length=100))
+    model.add(Bidirectional(LSTM(64,kernel_regularizer=l2(0.01),recurrent_regularizer=l2(0.01), bias_regularizer=l2(0.01))))
     model.add(Dropout(0.3))
     model.add(Dense(1000, activation='softmax'))
     model.compile(optimizer=optimizer, loss=loss, metrics=['accuracy'])
@@ -41,7 +41,7 @@ def residual_block(filters, dilatation_rate):
     model.add(Conv1D(filters, 3, padding='same', kernel_regularizer=l2(0.001))) 
     return model
 
-def protccn_model():
+def protccn_model(input_shape):
     model=Sequential()
     model.add(Conv1D(128, 1, padding='same'))
     # per-residue representation
@@ -53,31 +53,32 @@ def protccn_model():
     model.add(Flatten())
     model.add(Dense(1000, activation='softmax', kernel_regularizer=l2(0.0001)))
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+    model.build(input_shape=input_shape)
     return model
 
 
 def train_model(model,x_train,y_train,x_val,y_val,epochs=50,batch_size=256):
     history=model.fit(x_train,y_train,epochs=epochs, batch_size=batch_size,validation_data=(x_val,y_val),callbacks=EarlyStopping(monitor="val_loss",verbose=1))
-    model.save_weights(model_lstm_wieghts)
+    model.save_weights()
     return history
 
 def plot_accuracy_train_val(history):
-    accuracy_train=history["acc"]
-    loss_train=history["loss"]
-    accuracy_val=history["val_acc"]
-    loss_val=history["val_loss"]
-    x = range(1, len(acc) + 1)
-
+    accuracy_train=history.history["accuracy"]
+    loss_train=history.history["loss"]
+    accuracy_val=history.history["val_accuracy"]
+    loss_val=history.history["val_loss"]
+    x = range(1, len(accuracy_train) + 1)
+    
     plt.figure(figsize=(12, 5))
     plt.subplot(1, 2, 1)
-    plt.plot(x, acc, 'b', label='Training acc')
-    plt.plot(x, val_acc, 'r', label='Validation acc')
+    sns.lineplot(x,accuracy_train, label='Training accuracy')
+    sns.lineplot(x,loss_train, label='Training loss')
     plt.title('Training and validation accuracy')
     plt.legend()
 
     plt.subplot(1, 2, 2)
-    plt.plot(x, loss, 'b', label='Training loss')
-    plt.plot(x, val_loss, 'r', label='Validation loss')
+    sns.lineplot(x, accuracy_val, label='Training loss')
+    sns.lineplot(x, loss_val, label='Validation loss')
     plt.title('Training and validation loss')
     plt.legend()
 
