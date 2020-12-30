@@ -13,6 +13,9 @@ def get_classes_top1000(dataset):
     #return class list
     return dataset['family_accession'].value_counts()[:1000].index.tolist()
 
+def reduce_dataset_1000topclasses(data):
+    data=data.loc[df['family_accession'].isin(classes)].reset_index()
+    return data
 
 """ 
 Creation of a dictionnary mapping each amino acid to its numerical code
@@ -44,7 +47,6 @@ def process_dataset(df,classes):
     - Pad the sequences to make sure they all have the same length
     - One-hot encode the sequences 
     """
-    df=df.loc[df['family_accession'].isin(classes)].reset_index()
     df_encoded=integer_encoding(df)
     df_padded_encoded=pad_sequences(df_encoded,maxlen=100,padding='post', truncating='post')
     return df_padded_encoded
@@ -58,9 +60,8 @@ def process_labels(data,classes):
     """
     
     """
-    data_in_classes=data.loc[data['family_accession'].isin(classes)].reset_index()
     label_encoder=LabelEncoder()
-    data_encoded=label_encoder.fit_transform(data_in_classes['family_accession'])
+    data_encoded=label_encoder.fit_transform(data['family_accession'])
     #data_encoded=data_encoded.toarray()
     data_encoded=to_categorical(data_encoded)
     return data_encoded
