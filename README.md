@@ -20,13 +20,11 @@ Jupyter Notebook in folder "data_analysis" .
 
 - First model : Naïve approch with LSTM 
 
-
-
-**Accuracy** : 96%
+**Accuracy** : 97,3 %
 
 - Second model : CNN with a recurrent block 
 
-**Accuracy** : 98 %
+**Accuracy** : 98,7 %
 
 ![image](protcnn.jpg)
 
