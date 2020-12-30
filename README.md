@@ -10,6 +10,8 @@
     * features.py containg preprocessing functions 
 * *Model* : 
   * classifier.py containing functions to build the 2 models and train them
+
+  
 ## Dataset analysis :
 
 Jupyter Notebook in folder "data_analysis" . 
