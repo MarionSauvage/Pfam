@@ -95,7 +95,7 @@ def plot_accuracy_train_val(history):
     plt.legend()
 
     plt.subplot(1, 2, 2)
-    sns.lineplot(x, accuracy_val, label='Training loss')
+    sns.lineplot(x, accuracy_val, label='Validation accuruacy')
     sns.lineplot(x, loss_val, label='Validation loss')
     plt.title('Training and validation loss')
     plt.legend()
