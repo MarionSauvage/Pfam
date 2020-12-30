@@ -5,15 +5,22 @@ from keras.utils import to_categorical
 
 
 def get_classes(dataset):
-    #return class list
+    """ 
+    return class list
+    """
     return dataset['family_accession'].value_counts().index.tolist()
 
 
 def get_classes_top1000(dataset):
-    #return class list
+    """ 
+    return class list
+    """
     return dataset['family_accession'].value_counts()[:1000].index.tolist()
 
 def reduce_dataset_1000topclasses(data,classes):
+    """ 
+    return the dataset from 1000 most current classes
+    """
     data=data.loc[data['family_accession'].isin(classes)].reset_index()
     return data
 
@@ -61,7 +68,7 @@ def additional_process(data):
 
 def process_labels(data,classes):
     """
-    - Encoding of labls
+    - Encoding of labels
     """
     label_encoder=LabelEncoder()
     data_encoded=label_encoder.fit_transform(data['family_accession'])

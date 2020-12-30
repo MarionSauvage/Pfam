@@ -11,6 +11,8 @@ from keras.layers import Embedding, Bidirectional, LSTM, GlobalMaxPooling1D
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+
+### First Model using LSTM
 def build_model(optimizer='adam',loss='categorical_crossentropy'):
     """
     - Instanciation of keras tensor with Input()
@@ -27,12 +29,14 @@ def build_model(optimizer='adam',loss='categorical_crossentropy'):
     model.add(Dense(1000, activation='softmax'))
     model.compile(optimizer=optimizer, loss=loss, metrics=['accuracy'])
     return model
- 
+
+
+### Second model unsing a residual block and convolution
 def residual_block(filters, dilatation_rate):
     """
-    _data: input
-    _filters: convolution filters
-    _d_rate: dilation rate
+    -data: input
+    - filters: convolution filters
+    -dilatation_rate: dilation rate
     """
     model=Sequential()
     model.add(BatchNormalization())
@@ -44,6 +48,10 @@ def residual_block(filters, dilatation_rate):
     return model
 
 def protccn_model(input_shape):
+    """ 
+    - Model using previous function residual_block()
+    - Returns the built model
+    """
     model=Sequential()
     model.add(Conv1D(128, 1, padding='same'))
     # per-residue representation
@@ -60,11 +68,19 @@ def protccn_model(input_shape):
 
 
 def train_model(model,x_train,y_train,x_val,y_val,epochs=50,batch_size=256, model_name="lstm"):
+    """ 
+    - train function for both models 
+    - default epochs (50) parameters and batch size (256)
+    - using earlystopping to prevent overtraining 
+    """
     history=model.fit(x_train,y_train,epochs=epochs, batch_size=batch_size,validation_data=(x_val,y_val),callbacks=EarlyStopping(monitor="val_loss",verbose=1,patience=5))
     model.save_weights("model_"+model_name)
     return history
 
 def plot_accuracy_train_val(history):
+    """ 
+    - functions to visualize accuracy loss for both traing and validation
+    """
     accuracy_train=history.history["accuracy"]
     loss_train=history.history["loss"]
     accuracy_val=history.history["val_accuracy"]

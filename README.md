@@ -11,7 +11,7 @@
 * *Model* : 
   * classifier.py containing functions to build the 2 models and train them
 
-  
+
 ## Dataset analysis :
 
 Jupyter Notebook in folder "data_analysis" . 
@@ -22,7 +22,7 @@ Jupyter Notebook in folder "data_analysis" .
 
 
 
-**Accuracy** : 91%
+**Accuracy** : 96%
 
 - Second model : CNN with a recurrent block 
 
