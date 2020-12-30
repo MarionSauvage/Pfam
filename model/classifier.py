@@ -8,6 +8,8 @@ from keras.callbacks import EarlyStopping
 from keras.layers import Input, Dense, Dropout, Flatten, Activation
 from keras.layers import Conv1D, Add, MaxPooling1D, BatchNormalization
 from keras.layers import Embedding, Bidirectional, LSTM, GlobalMaxPooling1D
+import seaborn
+import matplotlib.pyplot as plt
 
 def build_model(optimizer='adam',loss='categorical_crossentropy'):
     """
