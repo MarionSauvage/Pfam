@@ -14,7 +14,7 @@ Jupyter Notebook in folder "data_analysis" .
 
 **Accuracy** : 98 %
 
-![image](protcnn.jpg |width=100)
+![image](protcnn.jpg)
 
 
 Model inspired by paper : https://www.biorxiv.org/content/10.1101/626507v4.full
