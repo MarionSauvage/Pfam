@@ -1,4 +1,4 @@
-# Pfam datatset
+# Pfam dataset
 
 ## Description :
 
